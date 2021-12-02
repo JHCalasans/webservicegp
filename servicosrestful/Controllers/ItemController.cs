@@ -31,7 +31,7 @@ namespace servicosrestful.Controllers
         public HttpResponseMessage PostItem(Item item)
         {
            
-                item = repositorio.Add(item);
+            item = repositorio.Add(item);
             var response = Request.CreateResponse<Item>(HttpStatusCode.Created, item);
 
             string uri = Url.Link("DefaultApi", new { id = item.Id });
