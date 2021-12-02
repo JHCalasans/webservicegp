@@ -8,16 +8,21 @@ using System.Web.Http;
 
 namespace servicosrestful.Controllers
 {
+    [RoutePrefix("api/item")]
     public class ItemController : ApiController
     {
         static readonly IItemRepositorio repositorio = new ItemRepositorio();
 
-        public IEnumerable<Item> GetAllItems()
+        [Route("obterTodos")]
+        [HttpGet]
+        public IEnumerable<Item> ObterTodos()
         {
             return repositorio.GetAll();
         }
 
-        public Item GetItem(int id)
+        [Route("obter/{id:int}")]
+        [HttpGet]
+        public Item ObterTodos(int id)
         {
             Item item = repositorio.Get(id);
             if (item == null)
@@ -27,11 +32,12 @@ namespace servicosrestful.Controllers
             return item;
         }
 
-
-        public HttpResponseMessage PostItem(Item item)
+        [HttpPost]
+        [ActionName("adicionar")]
+        public HttpResponseMessage Adicionar(Item item)
         {
            
-                item = repositorio.Add(item);
+            item = repositorio.Add(item);
             var response = Request.CreateResponse<Item>(HttpStatusCode.Created, item);
 
             string uri = Url.Link("DefaultApi", new { id = item.Id });
@@ -40,11 +46,11 @@ namespace servicosrestful.Controllers
         }
 
 
-        [HttpPost]
-        [ActionName("Update")]
-        public void Update(int id, String nome)
+        [HttpPut]
+        [ActionName("atualizar")]
+        public void Atualizar(Item item)
         {
-            Item item = new Item() { Id = id, Nome = nome };
+            //Item item = new Item() { Id = id, Nome = nome };
             if (!repositorio.Update(item))
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
