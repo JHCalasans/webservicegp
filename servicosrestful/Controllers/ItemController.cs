@@ -1,4 +1,5 @@
-﻿using servicosrestful.Models;
+﻿using Newtonsoft.Json;
+using servicosrestful.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,25 @@ namespace servicosrestful.Controllers
             response.Headers.Location = new Uri(uri);
             return response;
         }
+
+        [HttpPost]
+        [ActionName("adicionarLista")]
+        public IEnumerable<Item> AdicionarLista(HttpRequestMessage request)
+        {
+            var re = request.Content.ReadAsStringAsync().Result;
+
+            if(re != null)
+            {
+                List<Item> lista =JsonConvert.DeserializeObject<List<Item>>(re);
+                repositorio.AddRange(lista);
+                return repositorio.GetAll();
+            }
+            return null;
+
+
+        }
+
+
 
 
         [HttpPut]

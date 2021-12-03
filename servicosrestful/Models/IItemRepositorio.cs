@@ -12,6 +12,7 @@ namespace servicosrestful.Models
         IEnumerable<Item> GetAll();
         Item Get(int id);
         Item Add(Item item);
+        void AddRange(List<Item> itens);
         void Remove(int id);
         bool Update(Item item);
     }

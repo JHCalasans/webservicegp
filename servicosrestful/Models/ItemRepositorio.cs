@@ -14,19 +14,34 @@ namespace servicosrestful.Models
 
         public ItemRepositorio()
         {
-            Add(new Item { Nome = "Refrigerante"});
-            Add(new Item { Nome = "Pão"});
+           
         }
 
         public Item Add(Item item)
         {
             if (item == null)
             {
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException("Vazio");
             }
             item.Id = _nextId++;
             itens.Add(item);
             return item;
+        }
+
+        public void AddRange(List<Item> lista)
+        {
+            if (lista == null)
+            {
+                throw new ArgumentNullException("Vazio");
+            }
+            itens.Clear();
+            foreach(Item item in lista)
+            {
+                item.Id = _nextId++;
+                itens.Add(item);
+            }         
+            
+            
         }
 
         public Item Get(int id)
@@ -48,7 +63,7 @@ namespace servicosrestful.Models
         {
             if (item == null)
             {
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException("Vazio");
             }
 
             int index = itens.FindIndex(p => p.Id == item.Id);
